@@ -1,3 +1,7 @@
-/node_modules
+node_modules/
 *.log
-/bin
+bin/
+*.pid
+*.seed
+lib-cov
+coverage
