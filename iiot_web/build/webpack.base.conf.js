@@ -38,6 +38,18 @@ module.exports = {
       '@': resolve('src'),
     }
   },
+  devServer: { // 所有 webpack-dev-server 的选项都支持
+    proxy: {
+        '/api': {
+            target:'http://djangovue.japaneast.cloudapp.azure.com',
+            //target:'http://172.16.1.21:8089',
+            changeOrigin: true,
+            pathRewrite:{
+                '^/api':''
+            }
+        }
+    }, // 跨域代理
+},
   module: {
     rules: [
       ...(config.dev.useEslint ? [] : []),

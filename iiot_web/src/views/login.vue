@@ -53,14 +53,14 @@
   </div>
 </template>
 <script>
-import request from '@/utils/request'
-import auth from '@/api/auth'
+import { Signin } from '@/api/auth'
+import {setToken} from '@/utils/storage'
 export default {
   data() {
     return {
       form: {
-        name: 'admin',
-        password: '123456'
+        name: 'systest',
+        password: 'admintest'
       },
       ruleForm: {
         name: [
@@ -76,14 +76,17 @@ export default {
     submit(event) {
       this.$refs.form.validate((valid) => {
         if (valid) {
-          if (this.form.name === 'admin' &&
-            this.form.password === '123456') {
+    
+        var request = {
+            password: this.form.password,
+            username: this.form.name
+        }
+        Signin(request).then(response => {
+            console.log(response.data.token);
+            setToken(response.data.token);
             this.$router.push({ name: 'Home' });
-          } else {
-            this.$alert('name or password wrong!', 'info', {
-              confirmButtonText: 'ok'
-            })
-          }
+        })
+        
         } else {
           console.log('error submit!');
           return false;
