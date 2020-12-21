@@ -42,12 +42,12 @@ module.exports = {
     proxy: {
         '/api': {
             target:'http://djangovue.japaneast.cloudapp.azure.com',
-            //target:'http://172.16.1.21:8089',
             changeOrigin: true,
-            pathRewrite:{
-                '^/api':''
-            }
-        }
+        },
+        '/login': {
+          target:'http://djangovue.japaneast.cloudapp.azure.com',
+          changeOrigin: true,
+      }
     }, // 跨域代理
 },
   module: {
