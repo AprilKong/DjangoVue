@@ -9,7 +9,7 @@
         label-width="80px"
         class="loginForm"
       >
-        <h3>登陆</h3>
+        <h3>用户登陆</h3>
         <el-form-item
           label="用户名"
           prop="name"
@@ -17,6 +17,7 @@
           <el-input
             type="text"
             v-model="form.name"
+            prefix-icon="el-icon-user-solid"
             auto-complete="off"
             placeholder="请输入用户名"
           ></el-input>
@@ -28,6 +29,7 @@
           <el-input
             type="password"
             v-model="form.password"
+            prefix-icon="el-icon-lock"
             auto-complete="off"
             placeholder="请输入密码"
           ></el-input>
@@ -101,6 +103,17 @@ export default {
 }
 </script>
 <style>
+#login {
+  background-image: url('../assets/images/login_background.jpg');
+  background-size: cover;
+  width: 100%;
+  height: 100%;
+  left: 0px;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  position: absolute;
+}
 .loginToHome {
   position: absolute;
   left: 0px;
