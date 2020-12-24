@@ -40,7 +40,7 @@
             type="primary"
             plain
             @click="submit"
-            :loading="logining"
+            :loading="loading"
           >登录</el-button>
           <el-button
             class="loginBut"
@@ -55,8 +55,7 @@
   </div>
 </template>
 <script>
-import { Signin } from '@/api/auth'
-import {setToken} from '@/utils/storage'
+import store from '@/store'
 export default {
   data() {
     return {
@@ -71,7 +70,8 @@ export default {
         password: [
           { required: true, message: '请输入密码', trigger: 'blur' },
         ]
-      }
+      },
+      loading:false
     }
   },
   methods: {
@@ -79,17 +79,14 @@ export default {
       this.$refs.form.validate((valid) => {
         if (valid) {
     
-        var request = {
-            password: this.form.password,
-            username: this.form.name
-        }
-        Signin(request).then(response => {
-            console.log(response.data.token);
-            setToken(response.data.token);
-            this.$router.push({ name: 'Home' });
-        })
-        
+          var credential = {
+              password: this.form.password,
+              username: this.form.name
+          };
+          this.loading = true;
+          this.$store.dispatch('user/login',credential);
         } else {
+          this.loading = false;
           console.log('error submit!');
           return false;
         }
