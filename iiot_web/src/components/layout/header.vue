@@ -2,7 +2,7 @@
   <el-row>
     <el-col :span="2"
       ><div>
-        <img src="@/assets/images/logo_1.png" width="150" height="60" /></div
+        <img src="@/assets/images/logo_2.png" width="150" height="60" /></div
     ></el-col>
     <el-col :span="2" :offset="20">
       <el-dropdown trigger="click">
