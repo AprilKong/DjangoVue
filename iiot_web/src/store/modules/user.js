@@ -12,10 +12,11 @@ const mutations = {
         state.token = token;
         setToken(token);
     },
-    clearToken (state) {
+    logOut (state) {
         state.token = '';
         state.isAuthed = false;
         removeToken();
+        router.push({path:'/'});
     },
     setUserInfo(state, userInfo) {
         state.userInfo = userInfo;
@@ -26,15 +27,17 @@ const mutations = {
 const actions = {
     async login({commit, state},credential) {
         if(state.isAuthed)
-            {router.push({name: 'Home'}); return;}
+            {router.push({name: 'Index'}); return;}
         var response = await Signin(credential);
         console.log(response.data.token);
         commit('setToken',response.data.token);
         commit('setUserInfo',response.data.token); //TODO: should return userInfo in API
-        router.push({ name: 'Home' });
+        router.push({ name: 'Index' });
     },
     async getUserInfo({commit}, token) {
-        setTimeout(()=>{return token;},1000); // should call api to get userinfo
+        commit('setUserInfo',token);
+        return {token:token,
+            status: 200}
     }
 }
 

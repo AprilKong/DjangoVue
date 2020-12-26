@@ -19,4 +19,9 @@ export default {
   color: #2c3e50;
   margin-top: 60px;
 }
+html,body,#app,.el-container {
+  margin: 0px;
+  padding: 0px;
+  height: 100%;
+}
 </style>
