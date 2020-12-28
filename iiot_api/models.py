@@ -1,6 +1,7 @@
 from __future__ import unicode_literals
 from django.db import models
 
+
 class Book(models.Model):
     book_name = models.CharField(max_length=128)
     add_time = models.DateTimeField(auto_now_add=True)
@@ -9,11 +10,48 @@ class Book(models.Model):
         return self.book_name
 
 # Create your models here.
+
+
+class Company(models.Model):
+    name = models.CharField(max_length=500)
+    address = models.CharField(max_length=500, null=True)
+    email = models.EmailField()
+    phone_number = models.CharField(max_length=12, null=True)
+    information = models.TextField(blank=True, null=True)
+    create_time = models.DateTimeField(auto_now_add=True)
+    modified_time = models.DateTimeField(auto_now=True)
+
+
 class Device(models.Model):
     # identifier for records
-    device_id = models.IntegerField()
-    steam_pool_id = models.IntegerField()
-    #status registers
+    STATUS = (
+        ('A', 'Active'),
+        ('O', 'Offline'),
+    )
+    company_id = models.ForeignKey(
+        'Company', on_delete=models.SET_NULL, related_name='devices')
+    mac_address = models.CharField(max_length=100, null=True)
+    ip_address = models.CharField(max_length=100, null=True)
+    status = models.CharField(max_length=1, choices=STATUS)
+    register_time = models.DateTimeField(auto_now_add=True)
+    modified_time = models.DateTimeField(auto_now=True)
+
+
+class SteamPool(models.Model):
+    STATUS = (
+        ('A', 'Active'),
+        ('O', 'Offline'),
+    )
+    device_id = models.ForeignKey(
+        'Device', on_delete=models.SET_NULL, related_name='steampools')
+    status = models.CharField(max_length=1, choices=STATUS)
+    create_time = models.DateTimeField(auto_now_add=True)
+
+
+class PoolInfo(models.Model):
+    steampool_id = models.ForeignKey(
+        'SteamPool', on_delete=models.SET_NULL, related_name="pool_status")
+    # status registers
     auto_run = models.BooleanField()
     temp_hold = models.BooleanField()
     valve_mannal = models.BooleanField()
@@ -38,7 +76,35 @@ class Device(models.Model):
     craft_selection = models.IntegerField()
 
     # metadata for records
-    add_time = models.DateTimeField(auto_now_add=True)
-    upload_time = models.DateTimeField()
+    create_time = models.DateTimeField(auto_now_add=True)
+    collect_time = models.DateTimeField()
 
 
+class SystemInfo(models.Model):
+    device_id = models.ForeignKey(
+        'Device', on_delete=models.SET_NULL, related_name='system_status')
+    steam_ad = models.IntegerField()
+    steam_pressure = models.IntegerField()
+    air_ad = models.IntegerField()
+    air_pressure = models.IntegerField()
+    create_time = models.DateTimeField(auto_now_add=True)
+    collect_time = models.DateTimeField()
+
+
+class AlarmHistory(models.Model):
+    TYPES = (
+        ('W', 'Warning'),
+        ('E', 'Error')
+    )
+    STATES = (
+        ('A','Active'),
+        ('R','Resolved')
+    )
+    steampool_id = models.ForeignKey(
+        'SteamPool', on_delete=models.SET_NULL, related_name='pool_alarms')
+    alarm_type = models.CharField(max_length=1, choices=TYPES)
+    sevirity = models.PositiveSmallIntegerField() # 1,2,3,4
+    currnt_state = models.CharField(max_length=1, choices=STATES)
+    alarm_title = models.CharField(max_length=200) # 報警内容
+    create_time = models.DateTimeField(auto_now_add=True)
+    resolved_time = models.DateTimeField()
