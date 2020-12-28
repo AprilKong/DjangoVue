@@ -29,7 +29,7 @@ class Device(models.Model):
         ('O', 'Offline'),
     )
     company_id = models.ForeignKey(
-        'Company', on_delete=models.SET_NULL, related_name='devices')
+        'Company', on_delete=models.SET_NULL, null=True, related_name='devices')
     mac_address = models.CharField(max_length=100, null=True)
     ip_address = models.CharField(max_length=100, null=True)
     status = models.CharField(max_length=1, choices=STATUS)
@@ -43,14 +43,14 @@ class SteamPool(models.Model):
         ('O', 'Offline'),
     )
     device_id = models.ForeignKey(
-        'Device', on_delete=models.SET_NULL, related_name='steampools')
+        'Device', on_delete=models.SET_NULL, null=True,related_name='steampools')
     status = models.CharField(max_length=1, choices=STATUS)
     create_time = models.DateTimeField(auto_now_add=True)
 
 
 class PoolInfo(models.Model):
     steampool_id = models.ForeignKey(
-        'SteamPool', on_delete=models.SET_NULL, related_name="pool_status")
+        'SteamPool', on_delete=models.SET_NULL, null=True,related_name="pool_status")
     # status registers
     auto_run = models.BooleanField()
     temp_hold = models.BooleanField()
@@ -82,7 +82,7 @@ class PoolInfo(models.Model):
 
 class SystemInfo(models.Model):
     device_id = models.ForeignKey(
-        'Device', on_delete=models.SET_NULL, related_name='system_status')
+        'Device', on_delete=models.SET_NULL, null=True,related_name='system_status')
     steam_ad = models.IntegerField()
     steam_pressure = models.IntegerField()
     air_ad = models.IntegerField()
@@ -101,7 +101,7 @@ class AlarmHistory(models.Model):
         ('R','Resolved')
     )
     steampool_id = models.ForeignKey(
-        'SteamPool', on_delete=models.SET_NULL, related_name='pool_alarms')
+        'SteamPool', on_delete=models.SET_NULL, null=True,related_name='pool_alarms')
     alarm_type = models.CharField(max_length=1, choices=TYPES)
     sevirity = models.PositiveSmallIntegerField() # 1,2,3,4
     currnt_state = models.CharField(max_length=1, choices=STATES)
