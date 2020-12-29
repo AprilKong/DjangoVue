@@ -87,6 +87,78 @@ class SystemInfo(models.Model):
     steam_pressure = models.IntegerField()
     air_ad = models.IntegerField()
     air_pressure = models.IntegerField()
+    temp_first_step_craft_1 = models.IntegerField()
+    temp_rate_first_step_craft_1 = models.IntegerField()
+    duration_first_step_craft_1 = models.IntegerField()
+    temp_second_step_craft_1 = models.IntegerField()
+    temp_rate_second_step_craft_1 = models.IntegerField()
+    duration_second_step_craft_1 = models.IntegerField()
+    temp_third_step_craft_1 = models.IntegerField()
+    temp_rate_third_step_craft_1 = models.IntegerField()
+    duration_third_step_craft_1 = models.IntegerField()
+
+    temp_first_step_craft_2 = models.IntegerField()
+    temp_rate_first_step_craft_2 = models.IntegerField()
+    duration_first_step_craft_2 = models.IntegerField()
+    temp_second_step_craft_2 = models.IntegerField()
+    temp_rate_second_step_craft_2 = models.IntegerField()
+    duration_second_step_craft_2 = models.IntegerField()
+    temp_third_step_craft_2 = models.IntegerField()
+    temp_rate_third_step_craft_2 = models.IntegerField()
+    duration_third_step_craft_2 = models.IntegerField()
+
+    temp_first_step_craft_3 = models.IntegerField()
+    temp_rate_first_step_craft_3 = models.IntegerField()
+    duration_first_step_craft_3 = models.IntegerField()
+    temp_second_step_craft_3 = models.IntegerField()
+    temp_rate_second_step_craft_3 = models.IntegerField()
+    duration_second_step_craft_3 = models.IntegerField()
+    temp_third_step_craft_3 = models.IntegerField()
+    temp_rate_third_step_craft_3 = models.IntegerField()
+    duration_third_step_craft_3 = models.IntegerField()
+
+    temp_first_step_craft_4 = models.IntegerField()
+    temp_rate_first_step_craft_4 = models.IntegerField()
+    duration_first_step_craft_4 = models.IntegerField()
+    temp_second_step_craft_4 = models.IntegerField()
+    temp_rate_second_step_craft_4 = models.IntegerField()
+    duration_second_step_craft_4 = models.IntegerField()
+    temp_third_step_craft_4 = models.IntegerField()
+    temp_rate_third_step_craft_4 = models.IntegerField()
+    duration_third_step_craft_4 = models.IntegerField()
+    temp_forth_step_craft_4 = models.IntegerField()
+    temp_rate_forth_step_craft_4 = models.IntegerField()
+    duration_forth_step_craft_4 = models.IntegerField()
+    temp_fifth_step_craft_4 = models.IntegerField()
+    temp_rate_fifth_step_craft_4 = models.IntegerField()
+    duration_fifth_step_craft_4 = models.IntegerField()
+    temp_sixth_step_craft_4 = models.IntegerField()
+    temp_rate_sixth_step_craft_4 = models.IntegerField()
+    duration_sixth_step_craft_4 = models.IntegerField()
+    temp_seventh_step_craft_4 = models.IntegerField()
+    temp_rate_seventh_step_craft_4 = models.IntegerField()
+    duration_seventh_step_craft_4 = models.IntegerField()
+    temp_eighth_step_craft_4 = models.IntegerField()
+    temp_rate_eighth_step_craft_4 = models.IntegerField()
+    duration_eighth_step_craft_4 = models.IntegerField()
+    temp_ninth_step_craft_4 = models.IntegerField()
+    temp_rate_ninth_step_craft_4 = models.IntegerField()
+    duration_ninth_step_craft_4 = models.IntegerField()
+    temp_tenth_step_craft_4 = models.IntegerField()
+    temp_rate_tenth_step_craft_4 = models.IntegerField()
+    duration_tenth_step_craft_4 = models.IntegerField()
+
+    pid_sample_rate = models.IntegerField(null=True) #采样时间
+    pid_proportional_gain = models.IntegerField(null=True) #比例增益
+    pid_integral_gain = models.IntegerField(null=True) #积分增益
+    pid_differential_gain = models.IntegerField(null=True) #微分增益
+    pid_control_mode = models.IntegerField(null=True) #控制模式
+    pid_no_action_range = models.IntegerField(null=True) #不动作范围
+    pid_output_upper_limit = models.IntegerField(null=True) #输出上限
+    pid_output_lower_limit = models.IntegerField(null=True) #输出下限
+    pid_integral_upper_limit = models.IntegerField(null=True) #积分上限
+    pid_integral_lower_limit = models.IntegerField(null=True) #积分下限
+
     create_time = models.DateTimeField(auto_now_add=True)
     collect_time = models.DateTimeField()
 
