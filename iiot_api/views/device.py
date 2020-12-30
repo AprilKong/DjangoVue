@@ -19,7 +19,7 @@ class PoolList(mixins.ListModelMixin,generics.GenericAPIView):
         return self.list(request,*args,**kwargs)
 
 class PoolInfo(mixins.ListModelMixin,generics.GenericAPIView):
-    queryset = models.PoolInfo.objects.values("steampool__status")
+    queryset = models.PoolInfo.objects.all()
     serializer_class = serializers.PoolInfoSerializer
 
     def get(self,request,*args,**kwargs):
