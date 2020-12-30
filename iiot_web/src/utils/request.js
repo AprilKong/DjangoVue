@@ -49,7 +49,7 @@ service.interceptors.request.use(
         if(getToken()){
             config.headers['token'] = getToken();
             config.headers['Content-Type'] = 'application/json; charset=UTF-8';
-            config.headers.Authorization = getToken();
+            config.headers.Authorization = "JWT " + getToken();
         }
         return  config;
     },error => {

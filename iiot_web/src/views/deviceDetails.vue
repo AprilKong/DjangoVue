@@ -43,6 +43,7 @@
   </el-table>
 </template>
 <script>
+import {GetDeviceList} from '@/api/device'
   export default {
     data() {
       return {
@@ -68,6 +69,10 @@
           address: '炉内温度'
         }]
       }
+    },
+    async mounted() {
+      var list = await GetDeviceList();
+      console.log(list);
     },
     methods: {
       handleEdit(index, row) {
