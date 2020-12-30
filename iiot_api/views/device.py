@@ -10,3 +10,17 @@ class DeviceList(mixins.ListModelMixin,generics.GenericAPIView):
 
     def get(self,request,*args,**kwargs):
         return self.list(request,*args,**kwargs)
+
+class PoolList(mixins.ListModelMixin,generics.GenericAPIView):
+    queryset = models.SteamPool.objects.all()
+    serializer_class = serializers.PoolSerializer
+
+    def get(self,request,*args,**kwargs):
+        return self.list(request,*args,**kwargs)
+
+class PoolInfo(mixins.ListModelMixin,generics.GenericAPIView):
+    queryset = models.PoolInfo.objects.all()
+    serializer_class = serializers.PoolInfoSerializer
+
+    def get(self,request,*args,**kwargs):
+        return self.list(request,*args,**kwargs)

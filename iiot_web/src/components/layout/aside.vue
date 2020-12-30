@@ -23,7 +23,7 @@
         return { 
             navList:[ 
             {name:'/views/deviceManage',navItem:'设备管理',icon:'el-icon-s-tools'}, 
-            {name:'/views/deviceDetails',navItem:'设备详情',icon:'el-icon-info'},
+            {name:'/views/deviceDetails',navItem:'池子状态',icon:'el-icon-info'},
             {name:'/views/alarm',navItem:'报警中心',icon:'el-icon-message-solid'}, 
             ] } 
     },
