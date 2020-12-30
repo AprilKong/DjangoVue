@@ -4,7 +4,9 @@ from django.core import serializers
 from django.http import JsonResponse
 import json
 
-from .models import Book
+import sys
+sys.path.append("..")
+from models import Book
 
 @require_http_methods(["GET"])
 def add_book(request):
