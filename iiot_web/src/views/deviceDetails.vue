@@ -28,6 +28,7 @@ import {GetDeviceList} from '@/api/device'
       var response = await GetDeviceList();
       if(response.status === 200)
         this.poolStatus = response.data;
+      console.log(response)
     },
     methods: {
       handleEdit(index, row) {
