@@ -19,7 +19,7 @@ class PoolList(mixins.ListModelMixin,generics.GenericAPIView):
         return self.list(request,*args,**kwargs)
 
 class PoolInfo(mixins.ListModelMixin,generics.GenericAPIView):
-    queryset = models.PoolInfo.objects.all()
+    queryset = models.PoolInfo.objects.raw('SELECT * FROM iiot_api_poolinfo WHERE id IN (SELECT max( id ) FROM iiot_api_poolinfo GROUP BY steampool_id )')
     serializer_class = serializers.PoolInfoSerializer
 
     def get(self,request,*args,**kwargs):

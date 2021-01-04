@@ -7,6 +7,7 @@ import Login from '@/views/login'
 import Alarm from '@/views/alarm'
 import DeviceManage from '@/views/deviceManagement'
 import DeviceDetails from '@/views/deviceDetails'
+import PoolInfo from '@/views/SteamPool/PoolInfo'
 import store from '@/store'
 Vue.use(Router)
 
@@ -46,6 +47,11 @@ var routes = [
         path: '/views/deviceDetails',
         name: 'DeviceDetails',
         component: DeviceDetails
+      },
+      {
+        path: '/views/deviceDetails/poolInfo',
+        name: 'PoolInfo',
+        component: PoolInfo
       }
     ]
   }

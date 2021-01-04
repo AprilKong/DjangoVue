@@ -3,13 +3,13 @@
   <el-col :span="4" v-for="(pool, index) in poolStatus" :key="index" :offset="index%4 > 0 ? 2 : 0" style="margin-bottom:40px">
     <el-card :body-style="{ padding: '0px' }">
       <div>
-        <el-button type="success" icon="el-icon-check" circle></el-button>
+        <el-button :type="getButtonType(pool)" :icon="getButtonIcon(pool)" circle></el-button>
       </div>
       <div style="padding: 4px;">
-        <span>{{pool.steampool_id}}</span>
+        <span>{{pool.id}}</span>
         <div>
-          <time class="time">{{ pool.collect_time }}</time>
-          <el-button type="text" class="button">查看详情</el-button>
+          <time class="time">{{ pool.create_time }}</time>
+          <el-button type="text" class="button" @click="goToDetails(pool)">查看详情</el-button>
         </div>
       </div>
     </el-card>
@@ -17,7 +17,7 @@
 </el-row>
 </template>
 <script>
-import {GetDeviceList} from '@/api/device'
+import {GetSteamPool} from '@/api/device'
   export default {
     data() {
       return {
@@ -25,18 +25,24 @@ import {GetDeviceList} from '@/api/device'
       }
     },
     async mounted() {
-      var response = await GetDeviceList();
+      var response = await GetSteamPool();
       if(response.status === 200)
         this.poolStatus = response.data;
       console.log(response)
     },
     methods: {
-      handleEdit(index, row) {
-        console.log(index, row);
+      getButtonType(pool) {
+        return pool.status == 'O'?"danger":"success"
       },
-      handleDelete(index, row) {
-        console.log(index, row);
+      getButtonIcon(pool) {
+        return pool.status == 'O'?"el-icon-close":"el-icon-check"
+      },
+      goToDetails(pool){
+        this.$router.push({name:'PoolInfo',params:{
+          pool:pool
+    }})
       }
+
     }
   }
 </script>
@@ -46,10 +52,13 @@ import {GetDeviceList} from '@/api/device'
   }
 .el-card {
   height: 200px;
-  line-height: 50px;
+  width: 200px;
+  line-height: 45px;
 }
 .el-button{
-  padding:10px;
   margin-top: 10px;
 }
+/* .button {
+  margin-bottom: 14px;
+} */
 </style>
