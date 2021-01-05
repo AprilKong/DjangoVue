@@ -19,8 +19,16 @@ class PoolList(mixins.ListModelMixin,generics.GenericAPIView):
         return self.list(request,*args,**kwargs)
 
 class PoolInfo(mixins.ListModelMixin,generics.GenericAPIView):
-    queryset = models.PoolInfo.objects.raw('SELECT * FROM iiot_api_poolinfo WHERE id IN (SELECT max( id ) FROM iiot_api_poolinfo GROUP BY steampool_id )')
+    #queryset = models.PoolInfo.objects.raw('SELECT * FROM iiot_api_poolinfo WHERE id IN (SELECT max( id ) FROM iiot_api_poolinfo GROUP BY steampool_id )')
     serializer_class = serializers.PoolInfoSerializer
 
+    def get_queryset(self):
+        keyword = self.request.query_params.get('q')
+        if not keyword:
+            queryset = models.PoolInfo.objects.raw('SELECT * FROM iiot_api_poolinfo WHERE id IN (SELECT max( id ) FROM iiot_api_poolinfo GROUP BY steampool_id )')
+        else:
+            queryset = models.PoolInfo.objects.raw('SELECT * FROM iiot_api_poolinfo WHERE id IN (SELECT max( id ) FROM iiot_api_poolinfo GROUP BY steampool_id )').filter(steampool_id=keyword)
+        return queryset
+    
     def get(self,request,*args,**kwargs):
         return self.list(request,*args,**kwargs)
