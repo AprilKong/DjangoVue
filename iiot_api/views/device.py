@@ -1,5 +1,6 @@
 from rest_framework import mixins
 from rest_framework import generics
+from rest_framework import filters
 import sys
 sys.path.append("..")
 from iiot_api import models
@@ -18,17 +19,18 @@ class PoolList(mixins.ListModelMixin,generics.GenericAPIView):
     def get(self,request,*args,**kwargs):
         return self.list(request,*args,**kwargs)
 
-class PoolInfo(mixins.ListModelMixin,generics.GenericAPIView):
-    #queryset = models.PoolInfo.objects.raw('SELECT * FROM iiot_api_poolinfo WHERE id IN (SELECT max( id ) FROM iiot_api_poolinfo GROUP BY steampool_id )')
+class PoolInfo(mixins.RetrieveModelMixin,generics.GenericAPIView):
+    #queryset = models.PoolInfo.objects.order_by('collect_time')[0]
     serializer_class = serializers.PoolInfoSerializer
-
-    def get_queryset(self):
+    #filter_backends = (filters.SearchFilter, )
+    #search_fields = ('=steampool_id__id',)
+    def get_object(self):
         keyword = self.request.query_params.get('q')
         if not keyword:
-            queryset = models.PoolInfo.objects.raw('SELECT * FROM iiot_api_poolinfo WHERE id IN (SELECT max( id ) FROM iiot_api_poolinfo GROUP BY steampool_id )')
+            queryset = models.PoolInfo.objects.order_by('collect_time')[0]
         else:
-            queryset = models.PoolInfo.objects.raw('SELECT * FROM iiot_api_poolinfo WHERE id IN (SELECT max( id ) FROM iiot_api_poolinfo GROUP BY steampool_id )').filter(steampool_id=keyword)
+            queryset = models.PoolInfo.objects.all().filter(steampool_id__id=keyword).order_by('collect_time')[0]
         return queryset
     
     def get(self,request,*args,**kwargs):
-        return self.list(request,*args,**kwargs)
+        return self.retrieve(request,*args,**kwargs)
