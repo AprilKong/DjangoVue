@@ -15,6 +15,8 @@ class PoolInfoSerializer(serializers.ModelSerializer):
     class Meta:
         model = PoolInfo
         fields = '__all__'
+
+    steampool = serializers.SerializerMethodField()
     def get_steampool(self, obj):
         # obj是我们序列化的每个Book对象
         steampool_obj = obj.steampool   # 正向查询
