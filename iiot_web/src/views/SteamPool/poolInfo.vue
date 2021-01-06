@@ -29,7 +29,7 @@ export default {
     }
   },
   async mounted() {
-      var response = await GetPoolInfo();
+      var response = await GetPoolInfo(this.$route.params.pool.id);
       if(response.status === 200)
         {
           this.poolStatus = response.data;

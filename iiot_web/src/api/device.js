@@ -8,9 +8,9 @@ export function GetDeviceList(data) {
     })
 }
 
-export function GetPoolInfo(data) {
+export function GetPoolInfo(poolId,data) {
     return request({
-        url: '/api/get_poolinfo',
+        url: '/api/get_poolinfo?q='+poolId,
         method: 'get',
         data
     })
