@@ -34,3 +34,19 @@ class PoolInfo(mixins.RetrieveModelMixin,generics.GenericAPIView):
     
     def get(self,request,*args,**kwargs):
         return self.retrieve(request,*args,**kwargs)
+
+class SystemInfo(mixins.RetrieveModelMixin,generics.GenericAPIView):
+    #queryset = models.PoolInfo.objects.order_by('collect_time')[0]
+    serializer_class = serializers.SystemInfoSerializer
+    #filter_backends = (filters.SearchFilter, )
+    #search_fields = ('=steampool_id__id',)
+    def get_object(self):
+        keyword = self.request.query_params.get('q')
+        if not keyword:
+            queryset = models.SystemInfo.objects.order_by('collect_time')[0]
+        else:
+            queryset = models.SystemInfo.objects.all().filter(device_id__id=keyword).order_by('collect_time')[0]
+        return queryset
+    
+    def get(self,request,*args,**kwargs):
+        return self.retrieve(request,*args,**kwargs)
