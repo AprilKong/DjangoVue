@@ -6,7 +6,7 @@
           </el-col>
           <el-col :span="12">
               <div style="display:block">{{title}}</div>
-              <div><el-tag>{{status}}</el-tag></div>
+              <div><el-tag :type="icon.type">{{status}}</el-tag></div>
           </el-col>
         </el-row>
     </el-card>

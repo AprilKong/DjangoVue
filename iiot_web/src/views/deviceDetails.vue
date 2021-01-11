@@ -6,9 +6,9 @@
         <el-button :type="getButtonType(pool)" :icon="getButtonIcon(pool)" circle></el-button>
       </div>
       <div style="padding: 4px;">
-        <span>{{pool.id}}</span>
+        <span>编号：{{pool.id}}</span>
         <div>
-          <time class="time">{{ pool.create_time }}</time>
+          <div><el-tag :type="pool.status == 'A'?'':'warning'">{{ pool.status == 'A'?'正在运行':'离线' }}</el-tag></div>
           <el-button type="text" class="button" @click="goToDetails(pool)">查看详情</el-button>
         </div>
       </div>
