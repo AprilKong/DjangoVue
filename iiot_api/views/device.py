@@ -1,6 +1,7 @@
 from rest_framework import mixins
 from rest_framework import generics
 from rest_framework import filters
+import datetime
 import sys
 sys.path.append("..")
 from iiot_api import models
@@ -50,3 +51,25 @@ class SystemInfo(mixins.RetrieveModelMixin,generics.GenericAPIView):
     
     def get(self,request,*args,**kwargs):
         return self.retrieve(request,*args,**kwargs)
+
+class SystemInfoHistory(mixins.ListModelMixin,generics.GenericAPIView):
+    queryset = models.SystemInfo.objects.all()
+    serializer_class = serializers.SystemInfoSerializer
+
+    def get_object(self):
+        keyword = self.request.query_params.get('q')
+        #当前日期格式
+        cur_date = datetime.datetime.now().date()
+        #前一天日期
+        yester_day = cur_date - datetime.timedelta(days=keyword)
+
+        offset_day = cur_date - datetime.timedelta(days=keyword)
+
+        if not keyword:
+            queryset = models.SystemInfo.objects.filter(collect_time__gt=yester_day,collect_time__lte=cur_date)
+        else:
+            queryset = models.SystemInfo.objects.all().filter(device_id__id=keyword).filter(collect_time__gte=offset_day,collect_time__lte=cur_date)
+        return queryset
+
+    def get(self,request,*args,**kwargs):
+        return self.list(request,*args,**kwargs)
