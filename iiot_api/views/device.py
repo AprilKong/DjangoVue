@@ -57,18 +57,19 @@ class SystemInfoHistory(mixins.ListModelMixin,generics.GenericAPIView):
     serializer_class = serializers.SystemInfoSerializer
 
     def get_object(self):
-        keyword = self.request.query_params.get('q')
+        offset = self.request.query_params.get('q')
+        device = self.request.query_params.get('d')
         #当前日期格式
         cur_date = datetime.datetime.now().date()
         #前一天日期
-        yester_day = cur_date - datetime.timedelta(days=keyword)
+        yester_day = cur_date - datetime.timedelta(days=1)
 
-        offset_day = cur_date - datetime.timedelta(days=keyword)
+        offset_day = cur_date - datetime.timedelta(days=offset)
 
-        if not keyword:
-            queryset = models.SystemInfo.objects.filter(collect_time__gt=yester_day,collect_time__lte=cur_date)
+        if not offset:
+            queryset = models.SystemInfo.objects.filter(device_id__id=device).filter(collect_time__gt=yester_day,collect_time__lte=cur_date)
         else:
-            queryset = models.SystemInfo.objects.all().filter(device_id__id=keyword).filter(collect_time__gte=offset_day,collect_time__lte=cur_date)
+            queryset = models.SystemInfo.objects.filter(device_id__id=device).filter(collect_time__gte=offset_day,collect_time__lte=cur_date)
         return queryset
 
     def get(self,request,*args,**kwargs):
