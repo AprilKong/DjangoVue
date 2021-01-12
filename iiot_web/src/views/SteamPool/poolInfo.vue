@@ -35,12 +35,13 @@
     </el-row>
     <el-divider><i class="el-icon-star-on"></i></el-divider>
     <system-info/>
-    
+    <craft-table/>
   </div>
 </template>
 <script>
 import StatusCard from './statusCard.vue';
 import SystemInfo from './systeminfo.vue';
+import CraftTable from './craftTable.vue';
 import {GetPoolInfo} from '@/api/device';
 import Systeminfo from './systeminfo.vue';
 export default {
@@ -91,12 +92,14 @@ export default {
   },
   components:{
     StatusCard,
-    SystemInfo
+    SystemInfo,
+    CraftTable
   },
   methods: {
     goBack() {
       this.$router.push({ name: "DeviceDetails" });
     },
+    
   }
 };
 </script>

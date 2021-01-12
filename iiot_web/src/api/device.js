@@ -39,3 +39,11 @@ export function GetSystemInfoHistory(data) {
         data
     })
 }
+
+export function GetPoolInfoHistory(data) {
+    return request({
+        url: '/api/get_poolinfohistory?q=7&p=1',
+        method: 'get',
+        data
+    })
+}
