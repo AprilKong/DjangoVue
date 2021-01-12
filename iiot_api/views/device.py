@@ -36,6 +36,29 @@ class PoolInfo(mixins.RetrieveModelMixin,generics.GenericAPIView):
     def get(self,request,*args,**kwargs):
         return self.retrieve(request,*args,**kwargs)
 
+class PoolInfoHistory(mixins.ListModelMixin,generics.GenericAPIView):
+    queryset = models.PoolInfo.objects.all()
+    serializer_class = serializers.PoolInfoSerializer
+
+    def get_object(self):
+        offset = self.request.query_params.get('q')
+        pool = self.request.query_params.get('p')
+        #当前日期格式
+        cur_date = datetime.datetime.now().date()
+        #前一天日期
+        yester_day = cur_date - datetime.timedelta(days=1)
+
+        offset_day = cur_date - datetime.timedelta(days=offset)
+
+        if not offset:
+            queryset = models.SystemInfo.objects.filter(steampool_id__id=pool).filter(collect_time__gt=yester_day,collect_time__lte=cur_date)
+        else:
+            queryset = models.SystemInfo.objects.filter(steampool_id__id=pool).filter(collect_time__gte=offset_day,collect_time__lte=cur_date)
+        return queryset
+
+    def get(self,request,*args,**kwargs):
+        return self.list(request,*args,**kwargs)
+
 class SystemInfo(mixins.RetrieveModelMixin,generics.GenericAPIView):
     #queryset = models.PoolInfo.objects.order_by('collect_time')[0]
     serializer_class = serializers.SystemInfoSerializer
