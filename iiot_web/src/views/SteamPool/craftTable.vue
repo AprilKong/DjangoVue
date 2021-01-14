@@ -1,4 +1,5 @@
 <template>
+<div>
     <el-table
       :data="tableData"
       :span-method="objectSpanMethod"
@@ -26,15 +27,43 @@
         label="工艺三">
       </el-table-column>
     </el-table>
+    <el-table
+      :data="craftData"
+      border
+      style="width: 100%; margin-top: 20px">
+      <el-table-column
+        prop="id"
+        label="池子编号"
+        width="180">
+      </el-table-column>
+      <el-table-column
+        prop="craft"
+        label="选择工艺">
+      </el-table-column>
+      <el-table-column
+        prop="temp_shouldbe"
+        label="理论温度">
+      </el-table-column>
+      <el-table-column
+        prop="temp_is"
+        label="实时温度">
+      </el-table-column>
+      <el-table-column
+        prop="pid_output"
+        label="PID输出">
+      </el-table-column>
+    </el-table>
+</div>
 </template>
 <script>
-import { GetSystemInfo, GetSystemInfoHistory,GetPoolInfoHistory } from "@/api/device";
+import { GetSystemInfo, GetSystemInfoHistory,GetPoolInfo } from "@/api/device";
 export default {
 
   props:['deviceId'],
   data() {
     return {
         tableData: [],
+        craftData: [],
     }
   },
   async mounted() {
@@ -52,6 +81,21 @@ export default {
             }
             this.tableData.push(obj);
         }
+      }
+
+      var poolInfo = await GetPoolInfo(1);
+      if(poolInfo.status === 200) {
+        var data = poolInfo.data;
+        data.forEach(element => {
+          var obj = {
+            id:'蒸煮池'+element.id,
+            craft: '工艺' + element.craft_selection,
+            temp_shouldbe: element.target_temp*0.1 +' ℃',
+            temp_is: element.temp * 0.1 + ' ℃',
+            pid_output: element.pid_output
+          }
+          this.craftData.push(obj);
+        });
       }
   },
   methods: {

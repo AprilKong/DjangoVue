@@ -36,6 +36,23 @@ class PoolInfo(mixins.RetrieveModelMixin,generics.GenericAPIView):
     def get(self,request,*args,**kwargs):
         return self.retrieve(request,*args,**kwargs)
 
+class AllPoolInfo(mixins.ListModelMixin,generics.GenericAPIView):
+    #queryset = models.PoolInfo.objects.order_by('collect_time')[0]
+    serializer_class = serializers.PoolInfoSerializer
+    #filter_backends = (filters.SearchFilter, )
+    #search_fields = ('=steampool_id__id',)
+    query = 'select * from iiot_site_db.iiot_api_poolinfo a join iiot_site_db.iiot_api_steampool b on a.steampool_id = b.id where a.id in (select max(id) from iiot_site_db.iiot_api_poolinfo group by steampool_id) and b.device_id = 1' % lname
+    def get_object(self):
+        keyword = self.request.query_params.get('device')
+        if not keyword:
+            queryset = 'select * from iiot_site_db.iiot_api_poolinfo a join iiot_site_db.iiot_api_steampool b on a.steampool_id = b.id where a.id in (select max(id) from iiot_site_db.iiot_api_poolinfo group by steampool_id) and b.device_id = %d' % 1
+        else:
+            queryset = 'select * from iiot_site_db.iiot_api_poolinfo a join iiot_site_db.iiot_api_steampool b on a.steampool_id = b.id where a.id in (select max(id) from iiot_site_db.iiot_api_poolinfo group by steampool_id) and b.device_id = %d' % keyword
+        return queryset
+    
+    def get(self,request,*args,**kwargs):
+        return self.list(request,*args,**kwargs)
+
 class PoolInfoHistory(mixins.ListModelMixin,generics.GenericAPIView):
     queryset = models.PoolInfo.objects.all()
     serializer_class = serializers.PoolInfoSerializer

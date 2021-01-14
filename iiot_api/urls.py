@@ -15,4 +15,5 @@ urlpatterns = [
     url(r'get_systeminfo$', views.SystemInfo.as_view(),name='systeminfo'),
     url(r'get_systeminfohistory$', views.SystemInfoHistory.as_view(),name='systeminfohistory'),
     url(r'get_poolinfohistory$', views.PoolInfoHistory.as_view(),name='poolinfohistory'),
+    url(r'get_allpoolinfo$', views.AllPoolInfo.as_view(),name='allpoolinfo'),
 ]
