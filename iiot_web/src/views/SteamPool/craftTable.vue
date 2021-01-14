@@ -56,7 +56,7 @@
 </div>
 </template>
 <script>
-import { GetSystemInfo, GetSystemInfoHistory,GetPoolInfo } from "@/api/device";
+import { GetSystemInfo, GetSystemInfoHistory,GetAllSteamPool } from "@/api/device";
 export default {
 
   props:['deviceId'],
@@ -83,7 +83,7 @@ export default {
         }
       }
 
-      var poolInfo = await GetPoolInfo(1);
+      var poolInfo = await GetAllSteamPool(1);
       if(poolInfo.status === 200) {
         var data = poolInfo.data;
         data.forEach(element => {

@@ -7,7 +7,7 @@ import Login from '@/views/login'
 import Alarm from '@/views/alarm'
 import DeviceManage from '@/views/deviceManagement'
 import DeviceDetails from '@/views/deviceDetails'
-import PoolInfo from '@/views/SteamPool/PoolInfo'
+import PoolInfo from '@/views/SteamPool/poolInfo'
 import store from '@/store'
 Vue.use(Router)
 
