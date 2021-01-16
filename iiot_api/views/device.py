@@ -1,6 +1,7 @@
 from rest_framework import mixins
 from rest_framework import generics
 from rest_framework import filters
+from django.db.models import Subquery
 import datetime
 import sys
 sys.path.append("..")
@@ -38,15 +39,18 @@ class PoolInfo(mixins.RetrieveModelMixin,generics.GenericAPIView):
 
 class AllPoolInfo(mixins.ListModelMixin,generics.GenericAPIView):
     #queryset = models.PoolInfo.objects.order_by('collect_time')[0]
+    #queryset = models.PoolInfo.objects.values('steampool_id').annotate(maxId=max('id'),maxTime=max('collect_time'))
     serializer_class = serializers.PoolInfoSerializer
     #filter_backends = (filters.SearchFilter, )
     #search_fields = ('=steampool_id__id',)
     def get_queryset(self):
         keyword = self.request.query_params.get('device')
         if not keyword:
-            queryset = 'select * from iiot_site_db.iiot_api_poolinfo a join iiot_site_db.iiot_api_steampool b on a.steampool_id = b.id where a.id in (select max(id) from iiot_site_db.iiot_api_poolinfo group by steampool_id) and b.device_id = %d' % 1
+            maxId = models.PoolInfo.objects.values('steampool_id').annotate(maxId=max('id'),maxTime=max('collect_time'))
+            queryset = models.PoolInfo.objects.filter(id__in=Subquery(maxId.values('id')))
         else:
-            queryset = 'select * from iiot_site_db.iiot_api_poolinfo a join iiot_site_db.iiot_api_steampool b on a.steampool_id = b.id where a.id in (select max(id) from iiot_site_db.iiot_api_poolinfo group by steampool_id) and b.device_id = %d' % int(keyword)
+            maxId = models.PoolInfo.objects.filter(steampool_id__device_id__id=keyword).values('steampool_id').annotate(maxId=max('id'),maxTime=max('collect_time'))
+            queryset = models.PoolInfo.objects.filter(id__in=Subquery(maxId.values('id')))
         return queryset
     
     def get(self,request,*args,**kwargs):
