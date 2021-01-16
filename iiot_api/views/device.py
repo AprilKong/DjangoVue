@@ -2,6 +2,7 @@ from rest_framework import mixins
 from rest_framework import generics
 from rest_framework import filters
 from django.db.models import Subquery
+from django.db.models import Max,Min
 import datetime
 import sys
 sys.path.append("..")
@@ -46,10 +47,10 @@ class AllPoolInfo(mixins.ListModelMixin,generics.GenericAPIView):
     def get_queryset(self):
         keyword = self.request.query_params.get('device')
         if not keyword:
-            maxId = models.PoolInfo.objects.values('steampool_id').annotate(maxId=max('id'),maxTime=max('collect_time'))
+            maxId = models.PoolInfo.objects.values('steampool_id').annotate(maxId=Max('id'),maxTime=Max('collect_time'))
             queryset = models.PoolInfo.objects.filter(id__in=Subquery(maxId.values('id')))
         else:
-            maxId = models.PoolInfo.objects.filter(steampool_id__device_id__id=keyword).values('steampool_id').annotate(maxId=max('id'),maxTime=max('collect_time'))
+            maxId = models.PoolInfo.objects.filter(steampool_id__device_id__id=keyword).values('steampool_id').annotate(maxId=Max('id'),maxTime=Max('collect_time'))
             queryset = models.PoolInfo.objects.filter(id__in=Subquery(maxId.values('id')))
         return queryset
     
