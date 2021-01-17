@@ -28,7 +28,7 @@ class PoolInfo(mixins.RetrieveModelMixin,generics.GenericAPIView):
     #filter_backends = (filters.SearchFilter, )
     #search_fields = ('=steampool_id__id',)
     def get_object(self):
-        keyword = self.request.query_params.get('q')
+        keyword = self.request.query_params.get('poolId')
         if not keyword:
             queryset = models.PoolInfo.objects.order_by('collect_time')[0]
         else:
@@ -48,10 +48,10 @@ class AllPoolInfo(mixins.ListModelMixin,generics.GenericAPIView):
         keyword = self.request.query_params.get('device')
         if not keyword:
             maxId = models.PoolInfo.objects.values('steampool_id').annotate(maxId=Max('id'),maxTime=Max('collect_time'))
-            queryset = models.PoolInfo.objects.filter(id__in=Subquery(maxId.values('id')))
+            queryset = models.PoolInfo.objects.filter(id__in=Subquery(maxId.values('maxId')))
         else:
             maxId = models.PoolInfo.objects.filter(steampool_id__device_id__id=keyword).values('steampool_id').annotate(maxId=Max('id'),maxTime=Max('collect_time'))
-            queryset = models.PoolInfo.objects.filter(id__in=Subquery(maxId.values('id')))
+            queryset = models.PoolInfo.objects.filter(id__in=Subquery(maxId.values('maxId')))
         return queryset
     
     def get(self,request,*args,**kwargs):
@@ -62,8 +62,8 @@ class PoolInfoHistory(mixins.ListModelMixin,generics.GenericAPIView):
     serializer_class = serializers.PoolInfoSerializer
 
     def get_object(self):
-        offset = self.request.query_params.get('q')
-        pool = self.request.query_params.get('p')
+        offset = self.request.query_params.get('offSet')
+        pool = self.request.query_params.get('poolId')
         #当前日期格式
         cur_date = datetime.datetime.now().date()
         #前一天日期

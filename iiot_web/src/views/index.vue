@@ -48,5 +48,6 @@ export default {
   text-align: center;
   line-height: 100px;
   padding: 10px;
+  height: calc(100vh - 60px);
 }
 </style>

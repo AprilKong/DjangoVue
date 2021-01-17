@@ -26,7 +26,7 @@ export function GetSystemInfo(data) {
 
 export function GetAllSteamPool(deviceId,data) {
     return request({
-        url: '/api/get_allpoolinfo?device='+deviceId,
+        url: '/api/get_allpoolinfo',
         method: 'get',
         data
     })
@@ -50,7 +50,7 @@ export function GetSystemInfoHistory(data) {
 
 export function GetPoolInfoHistory(data) {
     return request({
-        url: '/api/get_poolinfohistory?q=7&p=1',
+        url: '/api/get_poolinfohistory?offSet=7&poolId=1',
         method: 'get',
         data
     })
