@@ -61,7 +61,7 @@ class PoolInfoHistory(mixins.ListModelMixin,generics.GenericAPIView):
     queryset = models.PoolInfo.objects.all()
     serializer_class = serializers.PoolInfoSerializer
 
-    def get_object(self):
+    def get_queryset(self):
         offset = self.request.query_params.get('offSet')
         pool = self.request.query_params.get('poolId')
         #当前日期格式
@@ -69,12 +69,12 @@ class PoolInfoHistory(mixins.ListModelMixin,generics.GenericAPIView):
         #前一天日期
         yester_day = cur_date - datetime.timedelta(days=1)
 
-        offset_day = cur_date - datetime.timedelta(days=offset)
+        offset_day = cur_date - datetime.timedelta(days=int(offset))
 
         if not offset:
-            queryset = models.SystemInfo.objects.filter(steampool_id__id=pool).filter(collect_time__gt=yester_day,collect_time__lte=cur_date)
+            queryset = models.PoolInfo.objects.filter(steampool_id__id=int(pool)).filter(collect_time__gt=yester_day,collect_time__lte=cur_date)
         else:
-            queryset = models.SystemInfo.objects.filter(steampool_id__id=pool).filter(collect_time__gte=offset_day,collect_time__lte=cur_date)
+            queryset = models.PoolInfo.objects.filter(steampool_id__id=int(pool)).filter(collect_time__gte=offset_day,collect_time__lte=cur_date)
         return queryset
 
     def get(self,request,*args,**kwargs):
