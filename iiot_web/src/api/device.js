@@ -48,9 +48,9 @@ export function GetSystemInfoHistory(data) {
     })
 }
 
-export function GetPoolInfoHistory(data) {
+export function GetPoolInfoHistory(poolId,offSet=7,data) {
     return request({
-        url: '/api/get_poolinfohistory?offSet=7&poolId=1',
+        url: '/api/get_poolinfohistory?offSet='+offSet+'&poolId='+poolId,
         method: 'get',
         data
     })

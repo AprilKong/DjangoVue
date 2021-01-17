@@ -103,7 +103,7 @@ export default {
     }
     //console.log(this.chartData);
     console.log(res);
-    var tempRes = await GetPoolInfoHistory();
+    var tempRes = await GetPoolInfoHistory(this.$route.params.pool.id);
     if (tempRes.status === 200) {
       tempRes.data.forEach((element) => {
         this.tempData.labels.push(element.collect_time);
