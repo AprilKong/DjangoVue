@@ -54,6 +54,7 @@ REST_FRAMEWORK = {
     }
 
 JWT_AUTH = {'JWT_EXPIRATION_DELTA': datetime.timedelta(seconds=86400),}
+AUTH_USER_MODEL = 'iiot_api.IiotUser'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
